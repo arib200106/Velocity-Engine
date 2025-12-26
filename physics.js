@@ -2,24 +2,23 @@ import * as THREE from 'three';
 
 export function handleWallCollisions(camera, walls, velocity) {
     const playerBox = new THREE.Box3().setFromCenterAndSize(
-        camera.position, 
-        new THREE.Vector3(1.2, 2, 1.2)
+        new THREE.Vector3(camera.position.x, camera.position.y - 0.8, camera.position.z),
+        new THREE.Vector3(0.6, 1.6, 0.6)
     );
 
-    walls.forEach(wall => {
+    for (const wall of walls) {
         const wallBox = new THREE.Box3().setFromObject(wall);
         if (playerBox.intersectsBox(wallBox)) {
-            const overlap = new THREE.Box3().copy(playerBox).intersect(wallBox);
-            const size = new THREE.Vector3();
-            overlap.getSize(size);
+            const overlapX = Math.min(playerBox.max.x - wallBox.min.x, wallBox.max.x - playerBox.min.x);
+            const overlapZ = Math.min(playerBox.max.z - wallBox.min.z, wallBox.max.z - playerBox.min.z);
+            const wallCenter = new THREE.Vector3();
+            wallBox.getCenter(wallCenter);
 
-            if (size.x < size.z) {
-                camera.position.x += (camera.position.x > wallBox.getCenter(new THREE.Vector3()).x) ? size.x : -size.x;
-                velocity.x = 0;
+            if (overlapX < overlapZ) {
+                camera.position.x += overlapX * (camera.position.x > wallCenter.x ? 1 : -1);
             } else {
-                camera.position.z += (camera.position.z > wallBox.getCenter(new THREE.Vector3()).z) ? size.z : -size.z;
-                velocity.z = 0;
+                camera.position.z += overlapZ * (camera.position.z > wallCenter.z ? 1 : -1);
             }
         }
-    });
+    }
 }

@@ -3,12 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Averr FPS</title>
+    <title>Velocity Engine FPS</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="crosshair"></div>
-    <div id="ui">Kills: 0</div>
+    <div id="ui">Kills: 0 / 5</div>
+    <div id="crosshair">+</div>
+
+    <div id="overlay">
+        <div class="menu">
+            <h1>VELOCITY ENGINE</h1>
+            <p>Eliminate 5 Bots to Win</p>
+            <p style="font-size: 0.8rem; color: #888;">(Click to Start)</p>
+            <div id="instructions">
+                W,A,S,D to Move | SHIFT to Sprint<br>
+                SPACE to Jump | CTRL to Crouch
+            </div>
+        </div>
+    </div>
 
     <script type="importmap">
         {
@@ -18,7 +30,6 @@
             }
         }
     </script>
-
     <script type="module" src="script.js"></script>
 </body>
 </html>
